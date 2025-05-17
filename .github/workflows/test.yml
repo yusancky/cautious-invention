@@ -1,0 +1,39 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get changed files
+        uses: tj-actions/changed-files@v46
+        with:
+          files: docs/**/*.md
+          include_all_old_new_renamed_files: true
+          write_output_files: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifact1
+          path: .github/outputs
+      - name: Checkout before
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.before }}
+          path: before
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifact2
+          path: .github/outputs
