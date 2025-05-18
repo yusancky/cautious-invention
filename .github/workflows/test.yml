@@ -22,7 +22,6 @@ jobs:
         uses: tj-actions/changed-files@v46
         with:
           files: docs/**/*.md
-          include_all_old_new_renamed_files: true
           write_output_files: true
       - uses: actions/upload-artifact@v4
         with:
